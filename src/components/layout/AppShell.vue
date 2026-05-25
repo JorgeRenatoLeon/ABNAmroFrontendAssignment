@@ -18,15 +18,13 @@ const mobileSidebarOpen = ref(false)
 
 <template>
 	<div class="flex h-screen overflow-hidden bg-gray-50 dark:bg-gray-950">
-		<!-- Skip to main content -->
 		<a
 			href="#main-content"
-			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-[var(--color-primary-hover)] focus:rounded-lg focus:shadow-lg focus:font-medium text-sm"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-(--color-primary-hover) focus:rounded-lg focus:shadow-lg focus:font-medium text-sm"
 		>
 			Skip to main content
 		</a>
 
-		<!-- aria-live region -->
 		<div
 			aria-live="polite"
 			aria-atomic="true"
@@ -35,12 +33,10 @@ const mobileSidebarOpen = ref(false)
 			{{ uiStore.liveMessage }}
 		</div>
 
-		<!-- Desktop sidebar -->
 		<div class="hidden lg:flex shrink-0">
 			<AppSidebar @open-settings="settingsOpen = true" />
 		</div>
 
-		<!-- Mobile sidebar drawer -->
 		<Transition name="drawer">
 			<div
 				v-if="mobileSidebarOpen"
@@ -57,7 +53,6 @@ const mobileSidebarOpen = ref(false)
 			</div>
 		</Transition>
 
-		<!-- Main column -->
 		<div class="flex flex-col flex-1 min-w-0 overflow-hidden">
 			<AppHeader
 				:search-query="searchQuery"
