@@ -39,7 +39,7 @@ function onSelect(genre: string) {
 			]"
 			@click="$emit('select', activeGenre === '__favorites__' ? null : '__favorites__')"
 		>
-			Favorites
+			{{ $t('dashboard.favorites') }}
 		</button>
 		<GenreTag
 			v-for="genre in DASHBOARD_GENRES"

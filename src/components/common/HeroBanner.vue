@@ -5,6 +5,9 @@ import RatingBadge from '@/components/common/RatingBadge.vue'
 import GenreTag from '@/components/common/GenreTag.vue'
 import { stripHtmlTags } from '@/utils/show'
 import type { TVMazeShow } from '@/types/tvmaze'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{ show: TVMazeShow }>()
 const router = useRouter()
@@ -36,13 +39,11 @@ function goToDetail() {
 			class="absolute inset-0 w-full h-full object-cover object-top"
 		>
 
-		<!-- Gradient overlay — ensures text legibility regardless of image -->
 		<div
 			class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10"
 			aria-hidden="true"
 		/>
 
-		<!-- Content -->
 		<div class="relative z-10 p-6 sm:p-8 w-full">
 			<div class="flex flex-wrap items-center gap-2 mb-3">
 				<RatingBadge :rating="show.rating.average" />
@@ -78,7 +79,7 @@ function goToDetail() {
 				>
 					<polygon points="5 3 19 12 5 21 5 3" />
 				</svg>
-				Explore Show
+				{{ t('show.explore') }}
 			</button>
 		</div>
 	</section>

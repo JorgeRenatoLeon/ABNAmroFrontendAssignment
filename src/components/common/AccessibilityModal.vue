@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, watch, nextTick, onUnmounted } from 'vue'
 import { useUIStore, type FontSize } from '@/stores/ui'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: [] }>()
@@ -38,15 +41,15 @@ watch(() => props.open, async (val) => {
 onUnmounted(() => document.removeEventListener('keydown', trapFocus))
 
 const fontSizes: { val: FontSize; label: string }[] = [
-	{ val: 'sm', label: 'Small' },
-	{ val: 'md', label: 'Medium' },
-	{ val: 'lg', label: 'Large' },
+	{ val: 'sm', label: 'fontSizeSmall' },
+	{ val: 'md', label: 'fontSizeMedium' },
+	{ val: 'lg', label: 'fontSizeLarge' },
 ]
 
 const toggleSettings = [
-	{ key: 'reducedMotion' as const, label: 'Reduce Motion' },
-	{ key: 'highContrast' as const, label: 'High Contrast' },
-	{ key: 'enhancedFocus' as const, label: 'Enhanced Focus Indicators' },
+	{ key: 'reducedMotion' as const, label: 'reducedMotion' },
+	{ key: 'highContrast' as const, label: 'highContrast' },
+	{ key: 'enhancedFocus' as const, label: 'focusIndicators' },
 ]
 </script>
 
@@ -75,13 +78,13 @@ const toggleSettings = [
 							id="modal-title"
 							class="text-base font-semibold text-gray-900 dark:text-gray-100"
 						>
-							Accessibility Settings
+							{{ t('settings.title') }}
 						</h2>
 						<button
 							ref="closeBtn"
 							type="button"
-							aria-label="Close settings"
-							class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
+							:aria-label="t('settings.close')"
+							class="p-1.5 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)"
 							@click="emit('close')"
 						>
 							<svg
@@ -111,7 +114,7 @@ const toggleSettings = [
 					<!-- Font size -->
 					<fieldset class="space-y-2">
 						<legend class="text-sm font-medium text-gray-700 dark:text-gray-300">
-							Font Size
+							{{ t('settings.fontSize') }}
 						</legend>
 						<div class="flex gap-2">
 							<button
@@ -120,14 +123,14 @@ const toggleSettings = [
 								type="button"
 								:aria-pressed="uiStore.fontSize === size.val"
 								:class="[
-									'flex-1 py-2 px-3 rounded-lg border text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]',
+									'flex-1 py-2 px-3 rounded-lg border text-sm font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)',
 									uiStore.fontSize === size.val
-										? 'border-[var(--color-primary)] bg-[var(--color-primary-highlight)] text-[var(--color-primary-hover)] dark:text-[var(--color-primary)]'
+										? 'border-(--color-primary) bg-(--color-primary-highlight) text-(--color-primary-hover) dark:text-(--color-primary)'
 										: 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300',
 								]"
 								@click="uiStore.setFontSize(size.val)"
 							>
-								{{ size.label }}
+								{{ t(size.label) }}
 							</button>
 						</div>
 					</fieldset>
@@ -143,7 +146,7 @@ const toggleSettings = [
 								:for="`toggle-${setting.key}`"
 								class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
 							>
-								{{ setting.label }}
+								{{ t(setting.label) }}
 							</label>
 							<button
 								:id="`toggle-${setting.key}`"
@@ -151,8 +154,8 @@ const toggleSettings = [
 								role="switch"
 								:aria-checked="uiStore[setting.key]"
 								:class="[
-									'relative w-10 h-6 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2',
-									uiStore[setting.key] ? 'bg-[var(--color-primary)]' : 'bg-gray-200 dark:bg-gray-700',
+									'relative w-10 h-6 rounded-full transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary) focus-visible:ring-offset-2',
+									uiStore[setting.key] ? 'bg-(--color-primary)' : 'bg-gray-200 dark:bg-gray-700',
 								]"
 								@click="uiStore[`set${setting.key.charAt(0).toUpperCase() + setting.key.slice(1)}` as 'setReducedMotion' | 'setHighContrast' | 'setEnhancedFocus'](!uiStore[setting.key])"
 							>

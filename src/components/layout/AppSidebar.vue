@@ -2,6 +2,11 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUIStore } from '@/stores/ui'
+import { useI18n } from 'vue-i18n'
+import { useLocale } from '@/composables/useLocale'
+
+const { t } = useI18n()
+const { currentLocale, setLocale } = useLocale()
 
 const emit = defineEmits<{ 'open-settings': [] }>()
 
@@ -12,17 +17,17 @@ const collapsed = computed(() => uiStore.sidebarCollapsed)
 const navItems = [
 	{
 		name: 'dashboard',
-		label: 'Dashboard',
+		label: t('nav.dashboard'),
 		icon: `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
 	},
 	{
 		name: 'timeline',
-		label: 'Timeline',
+		label: t('nav.timeline'),
 		icon: `<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>`,
 	},
 	{
 		name: 'map',
-		label: 'Map',
+		label: t('nav.map'),
 		icon: `<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>`,
 	},
 ]
@@ -38,14 +43,14 @@ function isActive(name: string) {
 			'flex flex-col h-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out',
 			collapsed ? 'w-16' : 'w-56',
 		]"
-		aria-label="Main navigation"
+		:aria-label="t('a11y.sidebar')"
 	>
 		<div
 			:class="['flex items-center gap-2 px-4 py-5 border-b border-gray-100 dark:border-gray-800 shrink-0', !collapsed && 'justify-start', collapsed && 'flex-col-reverse justify-start px-2']"
 		>
 			<button
 				type="button"
-				:aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+				:aria-label="collapsed ? t('sidebar.expand') : t('sidebar.collapse')"
 				:aria-expanded="!collapsed"
 				class="hidden lg:flex items-center gap-3 rounded-lg justify-center mw-10 p-2 text-sm text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)"
 				@click="uiStore.toggleSidebar()"
@@ -102,13 +107,13 @@ function isActive(name: string) {
 				v-if="!collapsed"
 				class="font-semibold text-sm text-gray-900 dark:text-gray-100 whitespace-nowrap"
 			>
-				Show Explorer
+				{{ t('sidebar.title') }}
 			</span>
 		</div>
 
 		<nav
 			class="flex-1 py-4 px-2 space-y-1"
-			aria-label="Main navigation"
+			:aria-label="t('a11y.mainNavigation')"
 		>
 			<RouterLink
 				v-for="item in navItems"
@@ -146,10 +151,28 @@ function isActive(name: string) {
 			</RouterLink>
 		</nav>
 
+		<div
+			class="px-4 py-3 border-t border-gray-100 dark:border-gray-800 shrink-0"
+		>
+			<select
+				v-model="currentLocale"
+				class="w-full py-2 px-5 rounded-lg border text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
+				@change="setLocale(currentLocale)"
+			>
+				<option value="en">
+					{{ t('settings.languageEn') }}
+				</option>
+				<option value="nl">
+					{{ t('settings.languageNl') }}
+				</option>
+			</select>
+		</div>
+
+
 		<div class="py-4 px-2 space-y-1 border-t border-gray-100 dark:border-gray-800 shrink-0">
 			<button
 				type="button"
-				aria-label="Settings"
+				:aria-label="t('a11y.settings')"
 				:class="['w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-primary)', collapsed && 'justify-center px-0 w-10 mx-auto']"
 				@click="emit('open-settings')"
 			>

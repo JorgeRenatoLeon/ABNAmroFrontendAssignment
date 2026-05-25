@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, watch, nextTick, toRefs } from 'vue'
 import type { TVMazeShow } from '@/types/tvmaze'
+import { useI18n } from 'vue-i18n'
 import ShowCard from './ShowCard.vue'
 import SkeletonCard from './SkeletonCard.vue'
+
+const { t } = useI18n()
 
 const props = defineProps<{
 	title: string
@@ -71,7 +74,7 @@ watch([shows, isLoading], () => nextTick(updateFade))
 				<button
 					type="button"
 					class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
-					aria-label="Scroll left"
+					:aria-label="t('showCarousel.scrollLeft')"
 					:disabled="!showFade"
 					@click="scroll('left')"
 					@keydown.enter="scroll('left')"
@@ -90,7 +93,7 @@ watch([shows, isLoading], () => nextTick(updateFade))
 				<button
 					type="button"
 					class="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
-					aria-label="Scroll right"
+					:aria-label="t('showCarousel.scrollRight')"
 					:disabled="shows.length <= 1"
 					@click="scroll('right')"
 					@keydown.enter="scroll('right')"
@@ -118,7 +121,7 @@ watch([shows, isLoading], () => nextTick(updateFade))
 				:class="!isLoading && shows.length > 1 ? 'pr-3' : ''"
 				style="scroll-snap-type: x mandatory;"
 				role="list"
-				aria-label="Shows carousel"
+				:aria-label="t('showCarousel.ariaLabel', { title })"
 				@scroll="onScroll"
 			>
 				<template v-if="isLoading">

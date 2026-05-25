@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useUIStore } from '@/stores/ui'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 import SearchBar from '@/components/common/SearchBar.vue'
 
 defineProps<{ searchQuery: string; isSearchLoading: boolean }>()
@@ -31,7 +33,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 		<button
 			type="button"
 			class="lg:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
-			aria-label="Open navigation"
+			:aria-label="t('a11y.openNavigation')"
 			@click="emit('openSidebar')"
 		>
 			<svg
@@ -77,7 +79,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
 		<button
 			type="button"
-			aria-label="Toggle theme"
+			:aria-label="t('a11y.themeToggle')"
 			class="ml-auto p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
 			@click="uiStore.toggleTheme()"
 		>

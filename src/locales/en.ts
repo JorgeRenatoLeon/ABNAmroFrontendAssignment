@@ -5,8 +5,15 @@ export default {
 		map: 'Map',
 		settings: 'Settings',
 	},
+	sidebar: {
+		label: 'Main navigation',
+		title: 'Show Explorer',
+		collapse: 'Collapse sidebar',
+		expand: 'Expand sidebar',
+	},
 	dashboard: {
 		title: 'Discover Shows',
+		description: 'Explore featured, top rated, and your favorite TV shows.',
 		featured: 'Featured',
 		topRated: 'Top Rated',
 		favorites: 'Favorites',
@@ -38,6 +45,7 @@ export default {
 		removeFavorite: 'Remove {name} from favorites',
 		rating: 'Rating: {score}',
 		noRating: 'No rating',
+		explore: 'Explore Show',
 	},
 	person: {
 		born: 'Born',
@@ -61,8 +69,8 @@ export default {
 		viewAll: 'View all',
 		noShows: 'No shows found for this country.',
 	},
-	accessibility: {
-		title: 'Accessibility Settings',
+	settings: {
+		title: 'Settings',
 		language: 'Language',
 		languageEn: 'English',
 		languageNl: 'Nederlands',
@@ -98,6 +106,17 @@ export default {
 		mapRegion: 'World map of TV show production',
 		sidebarNav: 'Main navigation',
 		themeToggle: 'Toggle theme',
+		settings: 'Open settings',
+		mainNavigation: 'Main navigation',
+		openNavigation: 'Open navigation',
+	},
+	showCarousel: {
+		scrollLeft: 'Scroll left',
+		scrollRight: 'Scroll right',
+		ariaLabel: '{title} carousel',
+	},
+	ratingBadge: {
+		ariaLabel: 'Rating: {rating}',
 	},
 	// Value to check if the locale has been loaded for other locales (not english)
 	a11yLoaded: {

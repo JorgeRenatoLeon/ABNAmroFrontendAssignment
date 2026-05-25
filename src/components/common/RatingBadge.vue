@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps<{
 	rating: number | null
@@ -25,7 +28,7 @@ const sizeClass = computed(() =>
 <template>
 	<span
 		:class="[colorClass, sizeClass, 'inline-flex items-center gap-1 font-semibold rounded-full whitespace-nowrap']"
-		:aria-label="`Rating: ${displayRating}`"
+		:aria-label="t('ratingBadge.ariaLabel', { rating: displayRating })"
 	>
 		<svg
 			v-if="rating !== null"

@@ -2,6 +2,9 @@
 import type { TVMazeShow } from '@/types/tvmaze'
 import ShowCard from './ShowCard.vue'
 import SkeletonCard from './SkeletonCard.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps<{
 	shows: TVMazeShow[]
@@ -12,7 +15,7 @@ defineProps<{
 <template>
 	<section aria-label="Top rated shows">
 		<h2 class="text-base font-semibold text-gray-900 dark:text-white mb-3">
-			Top Rated
+			{{ t('dashboard.topRated') }}
 		</h2>
 
 		<div

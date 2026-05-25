@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{
+const { t } = useI18n()
+
+defineProps<{
 	modelValue: string
 	isLoading?: boolean
 	placeholder?: string
@@ -48,7 +51,7 @@ function clear() {
 			ref="inputRef"
 			type="search"
 			:value="modelValue"
-			:placeholder="placeholder ?? 'Search TV shows...'"
+			:placeholder="placeholder ?? t('search.placeholder')"
 			class="w-full pl-9 pr-10 py-2 rounded-full text-sm bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-transparent focus:border-teal-700 focus:bg-white dark:focus:bg-gray-900 outline-none transition-colors"
 			aria-label="Search TV shows"
 			aria-keyshortcuts="/"

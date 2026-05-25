@@ -11,6 +11,9 @@ import { useRelatedShows } from '@/composables/useRelatedShows'
 import { stripHtmlTags } from '@/utils/show'
 import { useMeta } from '@/composables/useMeta'
 import { watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
@@ -25,18 +28,18 @@ const meta = computed(() => {
 	if (!show.value) return []
 	const s = show.value
 	return [
-		{ label: 'Status', value: s.status },
+		{ label: t('show.status'), value: s.status },
 		// Format dates
-		{ label: 'Premiered', value: s.premiered ? new Date(s.premiered).toLocaleDateString() : 'Unknown' },
+		{ label: t('show.premiered'), value: s.premiered ? new Date(s.premiered).toLocaleDateString() : 'Unknown' },
 		{
-			label: 'Ended',
+			label: t('show.ended'),
 			value: s.ended ? new Date(s.ended).toLocaleDateString() : 'N/A',
 		},
-		{ label: 'Runtime', value: s.runtime ? `${s.runtime} min` : 'Unknown' },
-		{ label: 'Language', value: s.language ?? 'Unknown' },
-		{ label: 'Network', value: s.network?.name ?? s.webChannel?.name ?? 'Unknown' },
+		{ label: t('show.runtime'), value: s.runtime ? `${s.runtime} min` : 'Unknown' },
+		{ label: t('show.language'), value: s.language ?? 'Unknown' },
+		{ label: t('show.network'), value: s.network?.name ?? s.webChannel?.name ?? 'Unknown' },
 		{
-			label: 'Schedule',
+			label: t('show.schedule'),
 			value: s.schedule.days.length
 				? `${s.schedule.days.join(', ')} at ${s.schedule.time || 'TBA'}`
 				: 'Unknown',
@@ -85,7 +88,7 @@ function goBack() {
 			>
 				<path d="M19 12H5M12 5l-7 7 7 7" />
 			</svg>
-			Back
+			{{ t('show.backButton') }}
 		</button>
 
 		<!-- Loading -->
@@ -121,7 +124,7 @@ function goBack() {
 				class="px-4 py-2 rounded-full bg-teal-700 text-white text-sm font-medium hover:bg-teal-800 transition-colors"
 				@click="fetchShowDetails(showId!)"
 			>
-				Try again
+				{{ t('errors.retryPrompt') }}
 			</button>
 		</div>
 

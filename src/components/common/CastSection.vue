@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type { TVMazeCastMember } from '@/types/tvmaze'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 defineProps<{ cast: TVMazeCastMember[] }>()
 </script>
@@ -7,7 +10,7 @@ defineProps<{ cast: TVMazeCastMember[] }>()
 <template>
 	<section aria-label="Cast">
 		<h2 class="text-base font-semibold text-gray-900 dark:text-white mb-3">
-			Cast
+			{{ t('show.cast') }}
 		</h2>
 
 		<div

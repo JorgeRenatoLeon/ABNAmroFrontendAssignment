@@ -9,7 +9,11 @@ import { useSearch } from '@/composables/useSearch'
 import { useMeta } from '@/composables/useMeta'
 import HeroBanner from '@/components/common/HeroBanner.vue'
 import { useShowsStore } from '@/stores/shows'
-useMeta({ title: 'Discover Shows', description: 'Browse top-rated TV shows by genre, timeline, and country.' })
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+
+useMeta({ title: t('dashboard.title'), description: t('dashboard.description') })
 
 const { isLoading, error, topRatedShows, genreSections, fetchShows } = useShows()
 const showsStore = useShowsStore()
@@ -90,7 +94,7 @@ const visibleSections = computed(() => {
 				class="px-4 py-2 rounded-full bg-teal-700 text-white text-sm font-medium hover:bg-teal-800 transition-colors"
 				@click="fetchShows"
 			>
-				Try again
+				{{ t('errors.retryPrompt') }}
 			</button>
 		</div>
 

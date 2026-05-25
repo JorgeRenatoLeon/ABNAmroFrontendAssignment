@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useUIStore } from '@/stores/ui'
+import { useI18n } from 'vue-i18n'
 import AppSidebar from '@/components/layout/AppSidebar.vue'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AccessibilityModal from '@/components/common/AccessibilityModal.vue'
@@ -11,6 +12,7 @@ const emit = defineEmits<{
 	'clearSearch': []
 }>()
 
+const { t } = useI18n()
 const uiStore = useUIStore()
 const settingsOpen = ref(false)
 const mobileSidebarOpen = ref(false)
@@ -22,7 +24,7 @@ const mobileSidebarOpen = ref(false)
 			href="#main-content"
 			class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-(--color-primary-hover) focus:rounded-lg focus:shadow-lg focus:font-medium text-sm"
 		>
-			Skip to main content
+			{{ t('a11y.skipToContent') }}
 		</a>
 
 		<div
