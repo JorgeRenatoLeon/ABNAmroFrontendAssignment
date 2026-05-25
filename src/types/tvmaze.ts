@@ -90,3 +90,19 @@ export interface GenreSection {
     genre: string
     shows: TVMazeShow[]
 }
+
+export interface TVMazeCrew {
+  type: string
+  person: TVMazePerson
+}
+
+export interface TVMazeCreditShow extends TVMazeShow {
+  _embedded: {
+    cast: TVMazeCastMember[]
+    crew: TVMazeCrew[]
+  }
+}
+
+export interface TVMazeCastCredit {
+  _embedded: { show: TVMazeCreditShow }
+}
