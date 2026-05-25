@@ -1,19 +1,19 @@
-import { ref, watch, type Ref } from 'vue'
+import { customRef, type Ref } from 'vue'
 
-export function useDebounce<T>(source: Ref<T>, delay = 300) {
-    const debouncedValue = ref(source.value) as Ref<T>
+export function useDebounce<T>(source: Ref<T>, delay = 300): Ref<T> {
+	let timeout: ReturnType<typeof setTimeout>
 
-    watch(
-        source,
-        (value) => {
-            const timeout = window.setTimeout(() => {
-            debouncedValue.value = value
-            }, delay)
-
-            return () => window.clearTimeout(timeout)
-        },
-        { immediate: true }
-    )
-
-    return debouncedValue
+	return customRef<T>((track, trigger) => ({
+		get() {
+			track()
+			return source.value
+		},
+		set(value) {
+			clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				source.value = value
+				trigger()
+			}, delay)
+		},
+	}))
 }
