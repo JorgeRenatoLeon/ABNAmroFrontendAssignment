@@ -2,6 +2,9 @@ import type {
 	TVMazeCastMember,
 	TVMazeSearchResult,
 	TVMazeShow,
+	TVMazePerson,
+	TVMazeCrew,
+	TVMazeCastCredit,
 } from '@/types/tvmaze'
 import { TVMAZE_BASE_URL } from './tvmaze.constants'
 
@@ -63,5 +66,29 @@ export const tvmazeService = {
 		const pages = await Promise.all(requests)
 		// Flatten the array of all pages into a single array of shows
 		return pages.flat()
+	},
+
+	async getShowCrew(showId: number): Promise<TVMazeCrew[]> {
+		const res = await fetch(`${TVMAZE_BASE_URL}/shows/${showId}/crew`)
+		if (!res.ok) throw new TVMazeApiError(`Failed to fetch crew for show ${showId}`, res.status)
+		return res.json() as Promise<TVMazeCrew[]>
+	},
+
+	async getPerson(personId: number): Promise<TVMazePerson> {
+		const res = await fetch(`${TVMAZE_BASE_URL}/people/${personId}`)
+		if (!res.ok) throw new TVMazeApiError(`Failed to fetch person ${personId}`, res.status)
+		return res.json() as Promise<TVMazePerson>
+	},
+
+	async getPersonCastCredits(personId: number): Promise<TVMazeCastCredit[]> {
+		const res = await fetch(`${TVMAZE_BASE_URL}/people/${personId}/castcredits?embed=show`)
+		if (!res.ok) throw new TVMazeApiError(`Failed to fetch cast credits for person ${personId}`, res.status)
+		return res.json() as Promise<TVMazeCastCredit[]>
+	},
+
+	async getAllShows(page = 0): Promise<TVMazeShow[]> {
+		const res = await fetch(`${TVMAZE_BASE_URL}/shows?page=${page}`)
+		if (!res.ok) throw new TVMazeApiError(`Failed to fetch shows (page ${page})`, res.status)
+		return res.json() as Promise<TVMazeShow[]>
 	},
 }

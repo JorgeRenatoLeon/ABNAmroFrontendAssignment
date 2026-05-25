@@ -5,6 +5,10 @@ import ShowCarousel from '@/components/common/ShowCarousel.vue'
 import RatingBadge from '@/components/common/RatingBadge.vue'
 import GenreTag from '@/components/common/GenreTag.vue'
 import CastSection from '@/components/common/CastSection.vue'
+import CrewSection from '@/components/common/CrewSection.vue'
+import { tvmazeService } from '@/services/tvmaze'
+import { ref } from 'vue'
+import type { TVMazeCrew } from '@/types/tvmaze'
 import ShowDetailSkeleton from '@/components/common/ShowDetailSkeleton.vue'
 import { useShowDetails } from '@/composables/useShowDetails'
 import { useRelatedShows } from '@/composables/useRelatedShows'
@@ -23,6 +27,8 @@ const { show, cast, isLoading, error, fetchShowDetails } = useShowDetails(() => 
 const { relatedShows, isLoading: isLoadingRelated } = useRelatedShows(show)
 
 const summary = computed(() => stripHtmlTags(show.value?.summary ?? null))
+
+const crew = ref<TVMazeCrew[]>([])
 
 const meta = computed(() => {
 	if (!show.value) return []
@@ -47,6 +53,15 @@ const meta = computed(() => {
 	]
 })
 
+async function fetchCrew() {
+	if (!showId.value) return
+	try {
+		crew.value = await tvmazeService.getShowCrew(showId.value)
+	} catch {
+		// crew is non-critical — fail silently
+	}
+}
+
 watch(show, (s) => {
 	if (s) {
 		useMeta({
@@ -54,6 +69,8 @@ watch(show, (s) => {
 			description: summary.value ?? undefined,
 			image: s.image?.original ?? undefined,
 		})
+		
+		fetchCrew()
 	}
 }, { immediate: true })
 
@@ -211,6 +228,12 @@ function goBack() {
 				v-if="cast.length > 0"
 				:cast="cast"
 				class="mb-10"
+			/>
+
+			<CrewSection
+				v-if="crew.length"
+				:crew="crew"
+				class="mt-8"
 			/>
 
 			<ShowCarousel
