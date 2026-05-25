@@ -3,6 +3,7 @@
 		class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm"
 		aria-busy="true"
 		aria-label="Loading show"
+		role="status"
 	>
 		<div class="skeleton aspect-2/3 w-full" />
 

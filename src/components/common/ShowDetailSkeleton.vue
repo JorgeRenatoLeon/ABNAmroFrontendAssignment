@@ -1,5 +1,6 @@
 <template>
 	<div
+		role="status"
 		aria-busy="true"
 		aria-label="Loading show details"
 	>

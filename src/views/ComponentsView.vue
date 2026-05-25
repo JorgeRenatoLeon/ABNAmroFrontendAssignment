@@ -100,7 +100,7 @@ const mockCast: TVMazeCastMember[] = [
 		:is-search-loading="false"
 		@update:search-query="search = $event"
 	>
-		<main class="max-w-7xl mx-auto p-6 space-y-12">
+		<section class="max-w-7xl mx-auto p-6 space-y-12">
 			<section>
 				<h2 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
 					RatingBadge
@@ -210,6 +210,6 @@ const mockCast: TVMazeCastMember[] = [
 				</h2>
 				<CastSection :cast="mockCast" />
 			</section>
-		</main>
+		</section>
 	</AppShell>
 </template>

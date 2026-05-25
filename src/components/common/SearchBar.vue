@@ -44,14 +44,17 @@ function clear() {
 		</svg>
 
 		<input
+			id="search-input"
 			ref="inputRef"
 			type="search"
 			:value="modelValue"
 			:placeholder="placeholder ?? 'Search TV shows...'"
 			class="w-full pl-9 pr-10 py-2 rounded-full text-sm bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-transparent focus:border-teal-700 focus:bg-white dark:focus:bg-gray-900 outline-none transition-colors"
 			aria-label="Search TV shows"
+			aria-keyshortcuts="/"
 			autocomplete="off"
 			spellcheck="false"
+			:aria-busy="isLoading ? 'true' : 'false'"
 			@input="onInput"
 		>
 

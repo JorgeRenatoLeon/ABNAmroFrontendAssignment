@@ -59,7 +59,7 @@ const visibleSections = computed(() => {
 </script>
 
 <template>
-	<main class="max-w-7xl mx-auto px-4 py-6 space-y-8">
+	<section class="max-w-7xl mx-auto px-4 py-6 space-y-8">
 		<!-- API error fallback -->
 		<div
 			v-if="error"
@@ -131,5 +131,5 @@ const visibleSections = computed(() => {
 				:is-loading="isLoading"
 			/>
 		</template>
-	</main>
+	</section>
 </template>

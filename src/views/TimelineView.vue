@@ -1,5 +1,5 @@
 <template>
-	<div class="p-8">
+	<section class="max-w-7xl mx-auto p-6 space-y-8">
 		<h1>Timeline</h1>
-	</div>
+	</section>
 </template>

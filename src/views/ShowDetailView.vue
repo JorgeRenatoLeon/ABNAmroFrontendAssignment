@@ -64,11 +64,15 @@ function goBack() {
 </script>
 
 <template>
-	<main class="max-w-7xl mx-auto px-4 py-6">
+	<section class="max-w-7xl mx-auto px-4 py-6">
 		<button
 			type="button"
 			class="cursor-pointer inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-teal-700 dark:hover:text-teal-400 transition-colors mb-6"
+			aria-label="Go back to previous page"
+			role="button"
+			tabindex="0"
 			@click="goBack"
+			@keydown.enter="goBack"
 		>
 			<svg
 				width="16"
@@ -214,5 +218,5 @@ function goBack() {
 				class="mb-10"
 			/>
 		</template>
-	</main>
+	</section>
 </template>
