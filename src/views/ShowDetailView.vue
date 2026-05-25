@@ -9,6 +9,8 @@ import ShowDetailSkeleton from '@/components/common/ShowDetailSkeleton.vue'
 import { useShowDetails } from '@/composables/useShowDetails'
 import { useRelatedShows } from '@/composables/useRelatedShows'
 import { stripHtmlTags } from '@/utils/show'
+import { useMeta } from '@/composables/useMeta'
+import { watch } from 'vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -41,6 +43,16 @@ const meta = computed(() => {
 		},
 	]
 })
+
+watch(show, (s) => {
+	if (s) {
+		useMeta({
+			title: s.name,
+			description: summary.value ?? undefined,
+			image: s.image?.original ?? undefined,
+		})
+	}
+}, { immediate: true })
 
 function goBack() {
 	if (window.history.length > 1) {

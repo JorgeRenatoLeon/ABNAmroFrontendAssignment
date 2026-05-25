@@ -6,6 +6,9 @@ import ShowCarousel from '@/components/common/ShowCarousel.vue'
 import SearchResults from '@/components/common/SearchResults.vue'
 import { useShows } from '@/composables/useShows'
 import { useSearch } from '@/composables/useSearch'
+import { useMeta } from '@/composables/useMeta'
+
+useMeta({ title: 'Discover Shows', description: 'Browse top-rated TV shows by genre, timeline, and country.' })
 
 const { isLoading, error, topRatedShows, genreSections, fetchShows } = useShows()
 
