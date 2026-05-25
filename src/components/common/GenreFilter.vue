@@ -4,6 +4,7 @@ import { DASHBOARD_GENRES } from '@/services/tvmaze.constants'
 
 const props = defineProps<{
 	activeGenre: string | null
+	showFavoritesTab?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -26,6 +27,20 @@ function onSelect(genre: string) {
 			:active="activeGenre === null"
 			@click="$emit('select', null)"
 		/>
+		<button
+			v-if="showFavoritesTab"
+			type="button"
+			:aria-pressed="activeGenre === '__favorites__'"
+			:class="[
+				'cursor-pointer inline-flex items-center px-3 py-1 rounded-full text-sm font-medium transition-colors',
+				activeGenre === '__favorites__'
+					? 'bg-teal-700 text-white'
+					: 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700',
+			]"
+			@click="$emit('select', activeGenre === '__favorites__' ? null : '__favorites__')"
+		>
+			Favorites
+		</button>
 		<GenreTag
 			v-for="genre in DASHBOARD_GENRES"
 			:key="genre"

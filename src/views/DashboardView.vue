@@ -7,10 +7,12 @@ import SearchResults from '@/components/common/SearchResults.vue'
 import { useShows } from '@/composables/useShows'
 import { useSearch } from '@/composables/useSearch'
 import { useMeta } from '@/composables/useMeta'
-
+import HeroBanner from '@/components/common/HeroBanner.vue'
+import { useShowsStore } from '@/stores/shows'
 useMeta({ title: 'Discover Shows', description: 'Browse top-rated TV shows by genre, timeline, and country.' })
 
 const { isLoading, error, topRatedShows, genreSections, fetchShows } = useShows()
+const showsStore = useShowsStore()
 
 // Provided search object from App.vue or local if not available
 const globalSearch = inject<ReturnType<typeof useSearch> | null>('globalSearch', null)
@@ -32,8 +34,26 @@ if (globalSearch) {
 
 const activeGenre = ref<string | null>(null)
 
+const featuredShow = computed(() => topRatedShows.value[0] ?? null)
+const hasFavorites = computed(() => showsStore.favorites.length > 0)
+
 const visibleSections = computed(() => {
-	if (activeGenre.value === null) return genreSections.value
+	if (activeGenre.value === null || activeGenre.value === 'All' || activeGenre.value === '__favorites__' && !hasFavorites.value) return genreSections.value
+	if (activeGenre.value === '__favorites__' && hasFavorites.value) {
+		// Non repeating list of favorited shows across all genres
+		return [
+			{
+				genre: 'Favorites',
+				shows: genreSections.value
+					.flatMap((s) => s.shows)
+					.filter((show) => showsStore.isFavorite(show.id))
+					.reduce((unique, show) => {
+						if (!unique.some((s) => s.id === show.id)) unique.push(show)
+						return unique
+					}, [] as typeof genreSections.value[0]['shows']),
+			},
+		]
+	}
 	return genreSections.value.filter((s) => s.genre === activeGenre.value)
 })
 </script>
@@ -85,12 +105,20 @@ const visibleSections = computed(() => {
 		</template>
 
 		<template v-else>
+			<HeroBanner
+				v-if="featuredShow && !hasQuery"
+				:show="featuredShow"
+				class="mb-8"
+			/>
+
 			<GenreFilter
+				:show-favorites-tab="hasFavorites"
 				:active-genre="activeGenre"
 				@select="activeGenre = $event"
 			/>
 
 			<TopRatedGrid
+				v-if="activeGenre === 'All' || activeGenre === null"
 				:shows="topRatedShows"
 				:is-loading="isLoading"
 			/>

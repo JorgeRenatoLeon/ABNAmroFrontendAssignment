@@ -1,28 +1,28 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
-export const useShowsStore = defineStore('shows', () => {
-	const favorites = ref<number[]>([])
-	const isDarkMode = ref(
-		window.matchMedia('(prefers-color-scheme: dark)').matches
-	)
-
-	function toggleFavorite(showId: number) {
-		const index = favorites.value.indexOf(showId)
-		if (index === -1) {
-			favorites.value.push(showId)
-		} else {
-			favorites.value.splice(index, 1)
-		}
-	}
-
-	function toggleDarkMode() {
-		isDarkMode.value = !isDarkMode.value
-		document.documentElement.setAttribute(
-			'data-theme',
-			isDarkMode.value ? 'dark' : 'light'
-		)
-	}
-
-	return { favorites, isDarkMode, toggleFavorite, toggleDarkMode }
+export const useShowsStore = defineStore('shows',{
+	state: () => ({
+		favorites: [] as number[],
+		isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+	}),
+	actions: {
+		toggleFavorite(showId: number) {
+			const index = this.favorites.indexOf(showId)
+			if (index === -1) {
+				this.favorites.push(showId)
+			} else {
+				this.favorites.splice(index, 1)
+			}
+		},
+		isFavorite(showId: number) {
+			return this.favorites.includes(showId)
+		},
+		toggleDarkMode() {
+			this.isDarkMode = !this.isDarkMode
+			document.documentElement.setAttribute(
+				'data-theme',
+				this.isDarkMode ? 'dark' : 'light'
+			)
+		},
+	},
 })

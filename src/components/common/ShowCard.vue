@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import RatingBadge from '@/components/common/RatingBadge.vue'
 import GenreTag from '@/components/common/GenreTag.vue'
+import FavoriteButton from '@/components/common/FavoriteButton.vue'
 import type { TVMazeShow } from '@/types/tvmaze'
 
 const props = defineProps<{ show: TVMazeShow }>()
@@ -26,6 +27,7 @@ function navigate() {
 <template>
 	<article
 		class="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer focus-within:ring-2 focus-within:ring-teal-600 focus-within:ring-offset-2"
+		@click="navigate"
 	>
 		<!-- Poster -->
 		<div class="relative aspect-2/3 overflow-hidden shrink-0">
@@ -47,35 +49,50 @@ function navigate() {
 			>
 				{{ show.name.charAt(0) }}
 			</div>
+			<FavoriteButton
+				:show="show"
+				class="absolute top-2 right-2"
+			/>
 		</div>
 
-		<!-- Content — fixed height keeps all cards uniform in a carousel row -->
-		<div class="p-3 h-22 flex flex-col">
+		<div class="p-3 h-full flex flex-col">
 			<button
 				type="button"
 				class="text-left focus:outline-none"
-				@click="navigate"
 			>
-				<h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-1 leading-snug">
+				<h3 class="text-sm font-semibold text-gray-900 dark:text-gray-100 line-clamp-2 leading-snug">
 					{{ show.name }}
 				</h3>
 			</button>
+			
+			<RatingBadge
+				:rating="show.rating.average"
+				size="sm"
+				class="w-fit my-1"
+			/>
 
-			<!-- Genre + rating row — one line max, overflow hidden prevents height growth -->
 			<div
-				class="flex items-center gap-1 mt-auto overflow-hidden"
+				class="mt-auto relative"
 				style="max-height: 1.375rem;"
 			>
-				<RatingBadge
-					:rating="show.rating.average"
-					size="sm"
-				/>
-				<GenreTag
-					v-for="genre in displayGenres"
-					:key="genre"
-					:genre="genre"
+				<div
+					class="flex items-center gap-1 overflow-x-scroll scrollbar-hide whitespace-nowrap pr-2"
+				>
+					<GenreTag
+						v-for="genre in displayGenres"
+						:key="genre"
+						:genre="genre"
+						class="bg-gray-200 dark:bg-gray-50/5!"
+					/>
+				</div>
+
+				<!-- Fading overlay -->
+				<div
+					class="absolute top-0 right-0 h-full w-6 pointer-events-none bg-linear-to-r from-transparent to-white dark:to-gray-800"
 				/>
 			</div>
 		</div>
 	</article>
 </template>
+
+<style scoped></style>
