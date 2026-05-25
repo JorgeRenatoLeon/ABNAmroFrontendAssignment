@@ -15,9 +15,18 @@ function makeShow(id: number, countryCode: string | null, rating = 7): TVMazeSho
 		status: 'Running',
 		runtime: 60,
 		language: 'English',
-		network: countryCode ? { name: 'Net', country: { name: 'Country', code: countryCode } } : null,
+		network: countryCode ? { name: 'Net', country: { name: 'Country', code: countryCode, timezone: ''}, id: 1, officialSite: null  } : null,
 		webChannel: null,
 		schedule: { time: '', days: [] },
+		externals: null,
+		url: '',
+		type: '',
+		averageRuntime: null,
+		ended: null,
+		officialSite: null,
+		weight: 0,
+		dvdCountry: null,
+		updated: 0,
 	}
 }
 

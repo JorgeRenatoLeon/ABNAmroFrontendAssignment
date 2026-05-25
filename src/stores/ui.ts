@@ -32,6 +32,7 @@ export const useUIStore = defineStore('ui', {
 		toggleTheme() {
 			this.theme = this.theme === 'light' ? 'dark' : 'light'
 			document.documentElement.setAttribute('data-theme', this.theme)
+			document.documentElement.classList.toggle('dark', this.theme === 'dark')
 		},
 
 		setFontSize(size: FontSize) {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { i18n } from '@/plugins/i18n'
 import CastSection from '@/components/common/CastSection.vue'
 import type { TVMazeCastMember } from '@/types/tvmaze'
 
@@ -27,27 +28,27 @@ function makeMember(id: number, hasImage: boolean): TVMazeCastMember {
 describe('CastSection', () => {
 	it('renders cast member names', () => {
 		const cast = [makeMember(1, false), makeMember(2, false)]
-		const wrapper = mount(CastSection, { props: { cast } })
+		const wrapper = mount(CastSection, { props: { cast }, global: { plugins: [i18n], stubs: { RouterLink: { template: '<a><slot /></a>' } } } })
 		expect(wrapper.text()).toContain('Person 1')
 		expect(wrapper.text()).toContain('Character 1')
 	})
 
 	it('renders portrait image when available', () => {
 		const cast = [makeMember(1, true)]
-		const wrapper = mount(CastSection, { props: { cast } })
+		const wrapper = mount(CastSection, { props: { cast }, global: { plugins: [i18n], stubs: { RouterLink: { template: '<a><slot /></a>' } } } })
 		expect(wrapper.find('img').exists()).toBe(true)
 	})
 
 	it('renders fallback SVG when image is null', () => {
 		const cast = [makeMember(1, false)]
-		const wrapper = mount(CastSection, { props: { cast } })
+		const wrapper = mount(CastSection, { props: { cast }, global: { plugins: [i18n], stubs: { RouterLink: { template: '<a><slot /></a>' } } } })
 		expect(wrapper.find('img').exists()).toBe(false)
 		expect(wrapper.find('svg').exists()).toBe(true)
 	})
 
 	it('caps cast display at 16 members', () => {
 		const cast = Array.from({ length: 20 }, (_, i) => makeMember(i + 1, false))
-		const wrapper = mount(CastSection, { props: { cast } })
+		const wrapper = mount(CastSection, { props: { cast }, global: { plugins: [i18n], stubs: { RouterLink: { template: '<a><slot /></a>' } } } })
 		const names = wrapper.findAll('p.text-xs.font-medium')
 		expect(names.length).toBeLessThanOrEqual(16)
 	})

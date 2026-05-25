@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 import { useLocale } from '@/composables/useLocale'
 
 const { t } = useI18n()
-const { currentLocale, setLocale } = useLocale()
+const { currentLocale } = useLocale()
 
 const emit = defineEmits<{ 'open-settings': [] }>()
 
@@ -157,7 +157,6 @@ function isActive(name: string) {
 			<select
 				v-model="currentLocale"
 				class="w-full py-2 px-5 rounded-lg border text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-(--color-primary)"
-				@change="setLocale(currentLocale)"
 			>
 				<option value="en">
 					{{ t('settings.languageEn') }}

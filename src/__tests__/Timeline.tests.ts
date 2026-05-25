@@ -18,6 +18,15 @@ function makeShow(id: number, year: number, rating: number, genres: string[] = [
 		network: null,
 		webChannel: null,
 		schedule: { time: '21:00', days: ['Sunday'] },
+		externals: null,
+		url: '',
+		type: '',
+		averageRuntime: null,
+		ended: null,
+		officialSite: null,
+		weight: 0,
+		dvdCountry: null,
+		updated: 0,
 	}
 }
 

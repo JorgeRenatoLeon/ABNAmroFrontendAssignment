@@ -106,3 +106,4 @@ export interface TVMazeCreditShow extends TVMazeShow {
 export interface TVMazeCastCredit {
   _embedded: { show: TVMazeCreditShow }
 }
+

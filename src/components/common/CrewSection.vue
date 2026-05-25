@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { TVMazeCrew } from '@/types/tvmaze'
+import { RouterLink } from 'vue-router'
 
 defineProps<{ crew: TVMazeCrew[] }>()
 
@@ -30,7 +31,18 @@ function groupByType(crew: TVMazeCrew[]): Map<string, TVMazeCrew[]> {
 					{{ type }}
 				</dt>
 				<dd class="text-xs text-gray-800 dark:text-gray-200 leading-relaxed">
-					{{ members.map(m => m.person.name).join(', ') }}
+					<template
+						v-for="(member, index) in members"
+						:key="member.person.id"
+					>
+						<RouterLink
+							:to="{ name: 'person', params: { id: member.person.id } }"
+							class="text-teal-600 dark:text-teal-300 hover:underline"
+						>
+							{{ member.person.name }}
+						</RouterLink>
+						<span v-if="index < members.length - 1">, </span>
+					</template>
 				</dd>
 			</div>
 		</dl>

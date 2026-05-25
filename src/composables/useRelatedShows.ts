@@ -1,4 +1,4 @@
-import { computed, ref, watch, type Ref } from 'vue'
+import { ref, watch, type Ref } from 'vue'
 import { tvmazeService, TVMazeApiError } from '@/services/tvmaze'
 import type { TVMazeShow } from '@/types/tvmaze'
 import { filterShowsByGenre, sortShowsByRatingDesc } from '@/utils/show'

@@ -4,7 +4,6 @@ import { useI18n } from 'vue-i18n'
 import { useMeta } from '@/composables/useMeta'
 import { useShowMap } from '@/composables/useShowMap'
 import ShowCard from '@/components/common/ShowCard.vue'
-import SkeletonCard from '@/components/common/SkeletonCard.vue'
 import type { CountryGroup } from '@/composables/useShowMap'
 
 const { t } = useI18n()
@@ -32,7 +31,7 @@ const maxCount = computed(() => topCountries.value[0]?.count ?? 1)
 			{{ t('nav.map') }}
 		</h1>
 		<p class="text-sm text-gray-500 dark:text-gray-400 mb-8">
-			{{ t('map.subtitle') }}
+			Shows grouped by country of origin
 		</p>
 
 		<!-- Loading -->
@@ -67,7 +66,7 @@ const maxCount = computed(() => topCountries.value[0]?.count ?? 1)
 				class="px-4 py-2 rounded-lg bg-[var(--color-primary)] text-white text-sm hover:bg-[var(--color-primary-hover)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)]"
 				@click="load"
 			>
-				{{ t('show.retryButton') }}
+				{{ t('errors.retryPrompt') }}
 			</button>
 		</div>
 
@@ -78,7 +77,7 @@ const maxCount = computed(() => topCountries.value[0]?.count ?? 1)
 				class="mb-10"
 			>
 				<h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-					{{ t('map.showsByCountry') }}
+					Shows by Country
 				</h2>
 
 				<div

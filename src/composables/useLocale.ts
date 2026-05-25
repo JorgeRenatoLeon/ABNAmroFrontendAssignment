@@ -25,7 +25,12 @@ export function useLocale() {
 	const { t } = useI18n<{ message: import('@/types/i18n').MessageSchema }, AppLocale>()
 	const uiStore = useUIStore()
 
-	const currentLocale = computed(() => uiStore.locale)
+	const currentLocale = computed<AppLocale>({
+		get: () => uiStore.locale,
+		set: (value: AppLocale) => {
+			void setLocale(value)
+		},
+	})
 	const isEnglish = computed(() => uiStore.locale === 'en')
 	const isDutch = computed(() => uiStore.locale === 'nl')
 

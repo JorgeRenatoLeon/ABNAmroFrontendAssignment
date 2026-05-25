@@ -5,7 +5,6 @@ import { useMeta } from '@/composables/useMeta'
 import { useTimeline } from '@/composables/useTimeline'
 import ShowCard from '@/components/common/ShowCard.vue'
 import SkeletonCard from '@/components/common/SkeletonCard.vue'
-import GenreTag from '@/components/common/GenreTag.vue'
 
 const { t } = useI18n()
 useMeta({ title: t('nav.timeline') })
@@ -29,7 +28,7 @@ onMounted(() => void load())
 			<!-- Min rating slider -->
 			<fieldset class="flex items-center gap-3">
 				<legend class="text-xs font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
-					{{ t('timeline.minRating') }}
+					Minimum Rating
 				</legend>
 				<input
 					id="rating-range"
@@ -66,7 +65,7 @@ onMounted(() => void load())
 					]"
 					@click="selectedGenre = null"
 				>
-					{{ t('timeline.allGenres') }}
+					All
 				</button>
 				<button
 					v-for="genre in availableGenres"
