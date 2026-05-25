@@ -21,6 +21,21 @@ const router = createRouter({
 			name: 'components-dev',
 			component: () => import('@/views/ComponentsView.vue'),
 		},
+		{
+			path: '/person/:id',
+			name: 'person',
+			component: () => import('@/views/PersonView.vue')
+		},
+		{
+			path: '/timeline',
+			name: 'timeline',
+			component: () => import('@/views/TimelineView.vue')
+		},
+		{
+			path: '/map',
+			name: 'map',
+			component: () => import('@/views/MapView.vue')
+		},
 	],
 	scrollBehavior(_to, _from, savedPosition) {
 		if (savedPosition) return savedPosition
