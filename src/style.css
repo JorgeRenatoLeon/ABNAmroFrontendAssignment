@@ -7,6 +7,12 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
+  /* Replace color scheme */
+  --color-primary:           #009286;
+  --color-primary-hover:     #007a70;
+  --color-primary-active:    #006560;
+  --color-primary-highlight: #d0eeec;
+
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -25,6 +31,16 @@
   * {
     transition-duration: 350ms;
     transition-timing-function: ease-in-out;
+  }
+
+  /* Themes */
+  &[data-theme="dark"] {
+    --text: #e5e7eb;
+    --bg: #111;
+    --color-primary:           #2eb8ac;
+    --color-primary-hover:     #4dccc0;
+    --color-primary-active:    #1a9e93;
+    --color-primary-highlight: #1a3534;
   }
 }
 
@@ -79,4 +95,37 @@ input[type="search"]::-webkit-search-cancel-button {
   display: none;
 }
 
+/* Page transitions */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+.page-enter-from { opacity: 0; transform: translateY(6px); }
+.page-leave-to   { opacity: 0; transform: translateY(-4px); }
+
+/* Accessibility data-attribute hooks */
+[data-font-size="sm"] { font-size: 87.5%; }
+[data-font-size="lg"] { font-size: 112.5%; }
+
+[data-high-contrast="true"] {
+  --color-text: #000000;
+  --color-bg:   #ffffff;
+}
+[data-high-contrast="true"][data-theme="dark"] {
+  --color-text: #ffffff;
+  --color-bg:   #000000;
+}
+
+[data-enhanced-focus="true"] :focus-visible {
+  outline-width: 3px;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 6px var(--color-primary-highlight);
+}
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  transition-duration: 0.01ms !important;
+}
 
