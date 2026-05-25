@@ -7,19 +7,19 @@ const store = useShowsStore()
 
 // Iinitial theme
 document.documentElement.setAttribute(
-  'data-theme',
-  store.isDarkMode ? 'dark' : 'light'
+	'data-theme',
+	store.isDarkMode ? 'dark' : 'light'
 )
 
 // Change when toggled
 watch(
-  () => store.isDarkMode,
-  (dark) => {
-    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
-  }
+	() => store.isDarkMode,
+	(dark) => {
+		document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+	}
 )
 </script>
 
 <template>
-  <RouterView />
+	<RouterView />
 </template>

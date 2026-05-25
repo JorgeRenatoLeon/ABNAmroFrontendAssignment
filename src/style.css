@@ -20,6 +20,12 @@
   @media (max-width: 1024px) {
     font-size: 16px;
   }
+  
+  /* Animation smooth transitions */
+  * {
+    transition-duration: 350ms;
+    transition-timing-function: ease-in-out;
+  }
 }
 
 @keyframes shimmer {
@@ -63,3 +69,14 @@ input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
 }
+
+/* Hide scrollbar */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+

@@ -10,12 +10,18 @@ const { show, cast, isLoading, error } = useShowDetails(() => showId.value)
 </script>
 
 <template>
-    <main class="p-6">
-        <p v-if="isLoading">Loading show details...</p>
-        <p v-else-if="error">{{ error }}</p>
-        <div v-else-if="show">
-            <h1 class="text-2xl font-bold">{{ show.name }}</h1>
-            <p>Cast members: {{ cast.length }}</p>
-        </div>
-    </main>
+	<main class="p-6">
+		<p v-if="isLoading">
+			Loading show details...
+		</p>
+		<p v-else-if="error">
+			{{ error }}
+		</p>
+		<div v-else-if="show">
+			<h1 class="text-2xl font-bold">
+				{{ show.name }}
+			</h1>
+			<p>Cast members: {{ cast.length }}</p>
+		</div>
+	</main>
 </template>
