@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 
+import type { AppLocale } from '@/plugins/i18n'
+
 export type AppTheme = 'light' | 'dark'
 export type FontSize = 'sm' | 'md' | 'lg'
 
@@ -11,6 +13,7 @@ interface UIState {
   enhancedFocus: boolean
   sidebarCollapsed: boolean
   liveMessage: string
+  locale: AppLocale
 }
 
 export const useUIStore = defineStore('ui', {
@@ -22,6 +25,7 @@ export const useUIStore = defineStore('ui', {
 		enhancedFocus: false,
 		sidebarCollapsed: false,
 		liveMessage: '',
+		locale: 'en',
 	}),
 
 	actions: {
@@ -48,6 +52,10 @@ export const useUIStore = defineStore('ui', {
 		setEnhancedFocus(val: boolean) {
 			this.enhancedFocus = val
 			document.documentElement.setAttribute('data-enhanced-focus', String(val))
+		},
+
+		setLocale(newLocale: AppLocale) {
+			this.locale = newLocale
 		},
 
 		toggleSidebar() {

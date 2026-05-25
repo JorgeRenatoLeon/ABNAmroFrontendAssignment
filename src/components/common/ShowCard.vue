@@ -27,7 +27,10 @@ function navigate() {
 <template>
 	<article
 		class="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-sm hover:shadow-md transition-shadow duration-200 cursor-pointer focus-within:ring-2 focus-within:ring-teal-600 focus-within:ring-offset-2"
+		role="button"
+		tabindex="0"
 		@click="navigate"
+		@keydown.enter="navigate"
 	>
 		<!-- Poster -->
 		<div class="relative aspect-2/3 overflow-hidden shrink-0">
