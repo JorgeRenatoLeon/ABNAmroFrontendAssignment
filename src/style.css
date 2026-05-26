@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/*
+ * Tailwind v4 defaults to `prefers-color-scheme: dark` for the `dark:` variant.
+ * Bind it to the `data-theme` attribute that the UI store toggles instead
+*/
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   --text: #111;
   --bg: #fff;

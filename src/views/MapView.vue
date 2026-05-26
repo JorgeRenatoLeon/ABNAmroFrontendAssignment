@@ -31,7 +31,7 @@ const maxCount = computed(() => topCountries.value[0]?.count ?? 1)
 			{{ t('nav.map') }}
 		</h1>
 		<p class="text-sm text-gray-500 dark:text-gray-400 mb-8">
-			Shows grouped by country of origin
+			{{ t('map.subtitle') }}
 		</p>
 
 		<!-- Loading -->
@@ -77,7 +77,7 @@ const maxCount = computed(() => topCountries.value[0]?.count ?? 1)
 				class="mb-10"
 			>
 				<h2 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">
-					Shows by Country
+					{{ t('map.showsByCountry') }}
 				</h2>
 
 				<div

@@ -48,8 +48,9 @@ export function useTimeline() {
 		loading.value = true
 		error.value = null
 		try {
-			const pages = await Promise.all([0, 1, 2, 3].map(p => tvmazeService.getAllShows(p)))
-			shows.value = pages.flat()
+			// Reuse the same batch helper the Dashboard uses — one source of truth
+			// for "fetch the working set of shows" instead of an ad-hoc Promise.all.
+			shows.value = await tvmazeService.getDashboardShows(4)
 		} catch {
 			error.value = 'Could not load timeline data.'
 		} finally {

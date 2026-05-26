@@ -14,7 +14,8 @@ const route = useRoute()
 const uiStore = useUIStore()
 const collapsed = computed(() => uiStore.sidebarCollapsed)
 
-const navItems = [
+// `t()` returns a string at the moment it's called, not a reactive ref
+const navItems = computed(() => [
 	{
 		name: 'dashboard',
 		label: t('nav.dashboard'),
@@ -30,7 +31,7 @@ const navItems = [
 		label: t('nav.map'),
 		icon: `<polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>`,
 	},
-]
+])
 
 function isActive(name: string) {
 	return route.name === name
@@ -214,7 +215,7 @@ function isActive(name: string) {
 						/>
 					</g>
 				</svg>
-				<span v-if="!collapsed">Settings</span>
+				<span v-if="!collapsed">{{ t('nav.settings') }}</span>
 			</button>
 		</div>
 	</aside>

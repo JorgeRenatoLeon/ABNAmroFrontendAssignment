@@ -24,11 +24,12 @@ export class TVMazeApiError extends Error {
 	}
 }
 
+// Single typed entry point — every TVMaze call goes through this so error
+// handling, base URL, and JSON parsing stay consistent across endpoints.
 async function request<T>(endpoint: string): Promise<T> {
 	const response = await fetch(`${TVMAZE_BASE_URL}${endpoint}`)
 
 	if (!response.ok) {
-		// Include the endpoint and the status in the error for debugging better
 		throw new TVMazeApiError(
 			`TVMaze request failed with status ${response.status}`,
 			response.status,
@@ -50,7 +51,7 @@ export const tvmazeService = {
 
 	searchShows(query: string): Promise<TVMazeSearchResult[]> {
 		return request<TVMazeSearchResult[]>(
-			`/search/shows?q=${encodeURIComponent(query)}`
+			`/search/shows?q=${encodeURIComponent(query)}`,
 		)
 	},
 
@@ -58,37 +59,28 @@ export const tvmazeService = {
 		return request<TVMazeCastMember[]>(`/shows/${showId}/cast`)
 	},
 
+	getShowCrew(showId: number): Promise<TVMazeCrew[]> {
+		return request<TVMazeCrew[]>(`/shows/${showId}/crew`)
+	},
+
+	getPerson(personId: number): Promise<TVMazePerson> {
+		return request<TVMazePerson>(`/people/${personId}`)
+	},
+
+	getPersonCastCredits(personId: number): Promise<TVMazeCastCredit[]> {
+		return request<TVMazeCastCredit[]>(
+			`/people/${personId}/castcredits?embed=show`,
+		)
+	},
+
+	// Batch helper used by Dashboard, Timeline, and Map — fetches N pages of
+	// /shows in parallel. TVMaze has no genre/country/year filter endpoint, so
+	// client-side grouping is the only path; this is necessity, not optimisation.
 	async getDashboardShows(pageCount = 4): Promise<TVMazeShow[]> {
 		const requests = Array.from({ length: pageCount }, (_, page) =>
-			this.getShowsPage(page)
+			this.getShowsPage(page),
 		)
-
 		const pages = await Promise.all(requests)
-		// Flatten the array of all pages into a single array of shows
 		return pages.flat()
-	},
-
-	async getShowCrew(showId: number): Promise<TVMazeCrew[]> {
-		const res = await fetch(`${TVMAZE_BASE_URL}/shows/${showId}/crew`)
-		if (!res.ok) throw new TVMazeApiError(`Failed to fetch crew for show ${showId}`, res.status)
-		return res.json() as Promise<TVMazeCrew[]>
-	},
-
-	async getPerson(personId: number): Promise<TVMazePerson> {
-		const res = await fetch(`${TVMAZE_BASE_URL}/people/${personId}`)
-		if (!res.ok) throw new TVMazeApiError(`Failed to fetch person ${personId}`, res.status)
-		return res.json() as Promise<TVMazePerson>
-	},
-
-	async getPersonCastCredits(personId: number): Promise<TVMazeCastCredit[]> {
-		const res = await fetch(`${TVMAZE_BASE_URL}/people/${personId}/castcredits?embed=show`)
-		if (!res.ok) throw new TVMazeApiError(`Failed to fetch cast credits for person ${personId}`, res.status)
-		return res.json() as Promise<TVMazeCastCredit[]>
-	},
-
-	async getAllShows(page = 0): Promise<TVMazeShow[]> {
-		const res = await fetch(`${TVMAZE_BASE_URL}/shows?page=${page}`)
-		if (!res.ok) throw new TVMazeApiError(`Failed to fetch shows (page ${page})`, res.status)
-		return res.json() as Promise<TVMazeShow[]>
 	},
 }

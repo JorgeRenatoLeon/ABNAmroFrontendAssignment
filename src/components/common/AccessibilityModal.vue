@@ -130,7 +130,7 @@ const toggleSettings = [
 								]"
 								@click="uiStore.setFontSize(size.val)"
 							>
-								{{ t(size.label) }}
+								{{ t(`settings.${size.label}`) }}
 							</button>
 						</div>
 					</fieldset>
@@ -146,7 +146,7 @@ const toggleSettings = [
 								:for="`toggle-${setting.key}`"
 								class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
 							>
-								{{ t(setting.label) }}
+								{{ t(`settings.${setting.label}`) }}
 							</label>
 							<button
 								:id="`toggle-${setting.key}`"

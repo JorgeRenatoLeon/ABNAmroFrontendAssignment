@@ -1,20 +1,23 @@
 import { computed } from 'vue'
-import { useI18n } from 'vue-i18n'
+import { useI18n, type Composer } from 'vue-i18n'
 import { i18n, type AppLocale } from '@/plugins/i18n'
 import { useUIStore } from '@/stores/ui'
 
+const globalI18n = i18n.global as unknown as Composer
+
+// Track which locale messages have been registered with vue-i18n.
+// 'en' is bundled at startup (see plugins/i18n.ts); other locales lazy-load.
 const loadedLocales = new Set<AppLocale>(['en'])
 
-async function loadLocale(locale: AppLocale) {
-	// Check if locale has already been loaded to override the english base
-	if (loadedLocales.has(locale) && i18n.global.getLocaleMessage(locale).a11yLoaded?.loaded) {
-		return
-	}
+async function loadLocale(locale: AppLocale): Promise<void> {
+	if (loadedLocales.has(locale)) return
 
-	// Dynamic import NL for lazy load by overriding the nl existing object with the real translations.
+	// Only NL needs dynamic loading
 	try {
-		const messages = await import(`@/locales/${locale}.ts`)
-		i18n.global.setLocaleMessage(locale, messages.default)
+		if (locale === 'nl') {
+			const messages = (await import('@/locales/nl')).default
+			globalI18n.setLocaleMessage(locale, messages)
+		}
 		loadedLocales.add(locale)
 	} catch (error) {
 		console.error(`Failed to load locale ${locale}:`, error)
@@ -22,7 +25,7 @@ async function loadLocale(locale: AppLocale) {
 }
 
 export function useLocale() {
-	const { t } = useI18n<{ message: import('@/types/i18n').MessageSchema }, AppLocale>()
+	const { t } = useI18n()
 	const uiStore = useUIStore()
 
 	const currentLocale = computed<AppLocale>({
@@ -36,9 +39,9 @@ export function useLocale() {
 
 	async function setLocale(newLocale: AppLocale) {
 		await loadLocale(newLocale)
-		i18n.global.locale = newLocale
+		globalI18n.locale.value = newLocale
 		uiStore.setLocale(newLocale)
-		// Update <html lang> for screen readers and SEO
+		// Keep <html lang> in sync for screen readers and SEO.
 		document.documentElement.lang = newLocale
 	}
 

@@ -34,7 +34,7 @@ describe('useShowMap', () => {
 	beforeEach(() => vi.restoreAllMocks())
 
 	it('groups shows by network country code', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows')
+		vi.spyOn(service.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 'US'), makeShow(2, 'US'), makeShow(3, 'GB')])
 		const map = useShowMap()
 		await map.load()
@@ -43,7 +43,7 @@ describe('useShowMap', () => {
 	})
 
 	it('excludes shows with no network country', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows')
+		vi.spyOn(service.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, null), makeShow(2, 'US')])
 		const map = useShowMap()
 		await map.load()
@@ -52,7 +52,7 @@ describe('useShowMap', () => {
 	})
 
 	it('sorts groups by show count descending', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows')
+		vi.spyOn(service.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 'GB'), makeShow(2, 'US'), makeShow(3, 'US'), makeShow(4, 'US')])
 		const map = useShowMap()
 		await map.load()
@@ -60,7 +60,7 @@ describe('useShowMap', () => {
 	})
 
 	it('selectedShows returns shows for selectedCountry, sorted by rating', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows')
+		vi.spyOn(service.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 'US', 6), makeShow(2, 'US', 9), makeShow(3, 'GB', 8)])
 		const map = useShowMap()
 		await map.load()
@@ -70,14 +70,14 @@ describe('useShowMap', () => {
 	})
 
 	it('selectedShows returns empty when no country selected', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows').mockResolvedValue([makeShow(1, 'US')])
+		vi.spyOn(service.tvmazeService, 'getDashboardShows').mockResolvedValue([makeShow(1, 'US')])
 		const map = useShowMap()
 		await map.load()
 		expect(map.selectedShows.value.length).toBe(0)
 	})
 
 	it('sets error state on fetch failure', async () => {
-		vi.spyOn(service.tvmazeService, 'getAllShows').mockRejectedValue(new Error('fail'))
+		vi.spyOn(service.tvmazeService, 'getDashboardShows').mockRejectedValue(new Error('fail'))
 		const map = useShowMap()
 		await map.load()
 		expect(map.error.value).not.toBeNull()

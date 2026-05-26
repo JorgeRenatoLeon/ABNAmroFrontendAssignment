@@ -58,8 +58,8 @@ export function useShowMap() {
 		loading.value = true
 		error.value = null
 		try {
-			const pages = await Promise.all([0, 1, 2, 3].map(p => tvmazeService.getAllShows(p)))
-			shows.value = pages.flat()
+			// Reuse the same batch helper the Dashboard uses
+			shows.value = await tvmazeService.getDashboardShows(4)
 		} catch {
 			error.value = 'Could not load map data.'
 		} finally {

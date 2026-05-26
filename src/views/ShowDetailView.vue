@@ -36,19 +36,19 @@ const meta = computed(() => {
 	return [
 		{ label: t('show.status'), value: s.status },
 		// Format dates
-		{ label: t('show.premiered'), value: s.premiered ? new Date(s.premiered).toLocaleDateString() : 'Unknown' },
+		{ label: t('show.premiered'), value: s.premiered ? new Date(s.premiered).toLocaleDateString() : t('show.unknownField') },
 		{
 			label: t('show.ended'),
 			value: s.ended ? new Date(s.ended).toLocaleDateString() : 'N/A',
 		},
-		{ label: t('show.runtime'), value: s.runtime ? `${s.runtime} min` : 'Unknown' },
-		{ label: t('show.language'), value: s.language ?? 'Unknown' },
-		{ label: t('show.network'), value: s.network?.name ?? s.webChannel?.name ?? 'Unknown' },
+		{ label: t('show.runtime'), value: s.runtime ? `${s.runtime} min` : t('show.unknownField') },
+		{ label: t('show.language'), value: s.language ?? t('show.unknownField') },
+		{ label: t('show.network'), value: s.network?.name ?? s.webChannel?.name ?? t('show.unknownField') },
 		{
 			label: t('show.schedule'),
 			value: s.schedule.days.length
 				? `${s.schedule.days.join(', ')} at ${s.schedule.time || 'TBA'}`
-				: 'Unknown',
+				: t('show.unknownField'),
 		},
 	]
 })
@@ -88,11 +88,8 @@ function goBack() {
 		<button
 			type="button"
 			class="cursor-pointer inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-teal-700 dark:hover:text-teal-400 transition-colors mb-6"
-			aria-label="Go back to previous page"
-			role="button"
-			tabindex="0"
+			:aria-label="t('a11y.goBack')"
 			@click="goBack"
-			@keydown.enter="goBack"
 		>
 			<svg
 				width="16"
@@ -238,7 +235,7 @@ function goBack() {
 
 			<ShowCarousel
 				v-if="relatedShows.length > 0 || isLoadingRelated"
-				title="Related Shows"
+				:title="t('show.relatedShows')"
 				:shows="relatedShows"
 				:is-loading="isLoadingRelated"
 				class="mb-10"

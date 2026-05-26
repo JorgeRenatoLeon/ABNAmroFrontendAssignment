@@ -34,7 +34,7 @@ describe('useTimeline', () => {
 	beforeEach(() => vi.restoreAllMocks())
 
 	it('groups shows by premiere year, newest first', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows')
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 2020, 8), makeShow(2, 2022, 9), makeShow(3, 2022, 7)])
 		const tl = useTimeline()
 		await tl.load()
@@ -43,7 +43,7 @@ describe('useTimeline', () => {
 	})
 
 	it('sorts shows within each year by rating descending', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows')
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 2021, 6), makeShow(2, 2021, 9), makeShow(3, 2021, 7.5)])
 		const tl = useTimeline()
 		await tl.load()
@@ -51,7 +51,7 @@ describe('useTimeline', () => {
 	})
 
 	it('excludes shows below minRating', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows')
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 2020, 5), makeShow(2, 2020, 8)])
 		const tl = useTimeline()
 		tl.minRating.value = 7
@@ -61,7 +61,7 @@ describe('useTimeline', () => {
 	})
 
 	it('filters by selectedGenre', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows')
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([makeShow(1, 2020, 8, ['Drama']), makeShow(2, 2020, 8, ['Comedy'])])
 		const tl = useTimeline()
 		tl.minRating.value = 0
@@ -71,7 +71,7 @@ describe('useTimeline', () => {
 	})
 
 	it('excludes shows without premiered date', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows')
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows')
 			.mockResolvedValue([{ ...makeShow(1, 2020, 8), premiered: null }])
 		const tl = useTimeline()
 		tl.minRating.value = 0
@@ -80,7 +80,7 @@ describe('useTimeline', () => {
 	})
 
 	it('sets error state on fetch failure', async () => {
-		vi.spyOn(tvmazeService.tvmazeService, 'getAllShows').mockRejectedValue(new Error('Network error'))
+		vi.spyOn(tvmazeService.tvmazeService, 'getDashboardShows').mockRejectedValue(new Error('Network error'))
 		const tl = useTimeline()
 		await tl.load()
 		expect(tl.error.value).not.toBeNull()

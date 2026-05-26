@@ -30,6 +30,7 @@ export default {
 	show: {
 		status: 'Status',
 		premiered: 'Premiered',
+		ended: 'Ended',
 		runtime: 'Runtime',
 		language: 'Language',
 		network: 'Network',
@@ -38,6 +39,7 @@ export default {
 		cast: 'Cast',
 		crew: 'Crew',
 		related: 'Related Shows',
+		relatedShows: 'Related Shows',
 		unknownField: 'Unknown',
 		backButton: 'Back',
 		retryButton: 'Try again',
@@ -60,12 +62,21 @@ export default {
 		title: 'Timeline Explorer',
 		description: 'Explore TV shows across decades.',
 		noShows: 'No shows in this decade for the selected genre.',
+		noResults: 'No shows match the selected filters.',
 		premiered: 'Premiered {year}',
+		minRating: 'Minimum Rating',
+		filterByGenre: 'Filter by genre',
+		allGenres: 'All',
+		showCount: '{count} show | {count} shows',
 	},
 	map: {
 		title: 'Map Explorer',
 		description: 'Discover shows by country of production.',
+		subtitle: 'Shows grouped by country of origin',
 		showCount: '{n} show | {n} shows',
+		showsByCountry: 'Shows by Country',
+		showsFrom: 'Shows from {country}',
+		clearSelection: 'Clear selection',
 		viewAll: 'View all',
 		noShows: 'No shows found for this country.',
 	},
@@ -96,6 +107,9 @@ export default {
 	},
 	a11y: {
 		skipToMain: 'Skip to main content',
+		skipToContent: 'Skip to main content',
+		loading: 'Loading...',
+		goBack: 'Go back to previous page',
 		liveRegion: 'Page updated',
 		carouselLabel: '{genre} shows',
 		carouselScrollLeft: 'Scroll {genre} left',
@@ -104,10 +118,11 @@ export default {
 		countryMarker: '{count} shows from {country}',
 		timelineRegion: 'TV shows timeline',
 		mapRegion: 'World map of TV show production',
+		sidebar: 'Main navigation',
 		sidebarNav: 'Main navigation',
+		mainNavigation: 'Main navigation',
 		themeToggle: 'Toggle theme',
 		settings: 'Open settings',
-		mainNavigation: 'Main navigation',
 		openNavigation: 'Open navigation',
 	},
 	showCarousel: {
@@ -118,8 +133,4 @@ export default {
 	ratingBadge: {
 		ariaLabel: 'Rating: {rating}',
 	},
-	// Value to check if the locale has been loaded for other locales (not english)
-	a11yLoaded: {
-		loaded: false,
-	},
-} as const
+}

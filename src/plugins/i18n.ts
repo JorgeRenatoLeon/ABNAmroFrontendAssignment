@@ -6,12 +6,12 @@ import en from '@/locales/en'
 export type AppLocale = 'en' | 'nl'
 
 export const i18n = createI18n<[MessageSchema], AppLocale>({
-	legacy: false,          // Composition API mode
+	legacy: false,
 	locale: 'en',
-	fallbackLocale: 'en',   // Fallback
+	fallbackLocale: 'en',   // English fallback for any missing NL key
 	messages: {
 		en,
-		// Use english as the base and then lazy load any differences for Dutch.
+		// `nl` starts as the English bundle as a typed placeholder, the translations replace this object on the first switch
 		nl: en,
 	},
 })
